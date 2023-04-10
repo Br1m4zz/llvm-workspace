@@ -12,6 +12,7 @@ set(LLVM_TUTOR_PLUGINS
     DuplicateBB
     OpcodeCounter
     MergeBB
+    SVExtractor
     )
 
 set(StaticCallCounter_SOURCES
@@ -38,7 +39,8 @@ set(OpcodeCounter_SOURCES
   OpcodeCounter.cpp)
 set(MergeBB_SOURCES
   MergeBB.cpp)
-
+set(SVExtractor_SOURCES
+  SVExtractor.cpp)
 # CONFIGURE THE PLUGIN LIBRARIES
 # ==============================
 foreach( plugin ${LLVM_TUTOR_PLUGINS} )

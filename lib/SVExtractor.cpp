@@ -38,7 +38,19 @@ SVExtractor::Result SVExtractor::runOnModule(Module &Mod)
     return SVs;
 }
 
+static void printSVs(raw_ostream &OS, Module &Mod, SVExtractor::Result &SVs)
+    noexcept {
+        if(SVs.empty())return;
+        OS << "------------------------"<<"\n";
+        OS << "State Variable in Module \" "<< Mod.getName() << "\":\n";
+        OS << "------------------------"<<"\n";
 
+        for(auto it= SVs.begin(), it_end=SVs.end(); it!=it_end; ++it)
+        {
+            GlobalVariable *sv = *it;
+            OS<< format("%-20s \n",sv->getName().str().c_str());
+        }
+    }
 
 /*-----------------------------------------------------------
 新PM下，调用我们的转换PASS，
@@ -58,19 +70,7 @@ PreservedAnalyses SVExtractorPrinter::run(Module &Mod, ModuleAnalysisManager &MA
 具体实现我们的打印函数实现，
 
 -----------------------------------------------------------*/
-static void printSVs(raw_ostream &OS, Module &Mod, SVExtractor::Result &SVs)
-    noexcept {
-        if(SVs.empty())return;
-        OS << "------------------------"<<"\n";
-        OS << "State Variable in Module \" "<< Mod.getName() << "\":\n";
-        OS << "------------------------"<<"\n";
 
-        for(auto it= SVs.begin(), it_end=SVs.end(); it!=it_end; ++it)
-        {
-            GlobalVariable *sv = *it;
-            OS<< format("%-20s \n",sv->getName().str().c_str());
-        }
-    }
 
 /*-----------------------------------------------------------
 新PM下PASS注册
